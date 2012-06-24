@@ -1,0 +1,13 @@
+CALLME PLUGIN IN DEUTSCH
+
+
+Sag einfach "Nenn Mich…" und Siri spricht dich mit deinem neuen Namen an.
+
+
+So installierst Du dieses Plugin: 
+
+# 1: Lade den "callMe" ordner in ~/SiriServerCore/plugins/ 
+
+# 2: Fügen Sie "callMe" in plugins.conf ein
+
+FERTIG
