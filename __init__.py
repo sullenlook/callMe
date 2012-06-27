@@ -33,16 +33,16 @@ from siriObjects.systemObjects import DomainObjectRetrieve, DomainObjectRetrieve
 
 res = {
 'success': 
-    {'de-DE': u"OK, Ich nenne Dich \"{0}\" ab jetzt.
-     'en-US': u"OK, I'll call you \"{0}\" from now on."
+    {'de-DE': u"Ok, ich nenne Dich \ "{0} \" von jetzt an.", #translate this to German
+     'en-GB': u"Ok, I'll call you \"{0}\" from now on."
     },
 'specType': 
-    {'de-DE': u"OK, {0} Du bist \"{1}\" ab jetzt.
-     'en-US': u"OK, your {0} will be \"{1}\" from now on."
+    {'de-DE': u"Ok, Dein {0} ist \ "{1} \" von jetzt an.", #translate this to German
+     'en-GB': u"Ok, your {0} will be \"{1}\" from now on."
     },
 'names': 
-    {'de-DE': u"Vorname : {0}\nSpitzname : {1}"
-     'en-US': u"First name : {0}\nNickname : {1}"
+    {'de-DE': u"I'm not translated to German !", #translate this to German
+     'en-GB': u"Vorname : {0}\nNickname : {1}"
     },
 }
 
@@ -100,8 +100,7 @@ class callMe(Plugin):
 	raise StopPluginExecution("Unknown response: {0}".format(commitAnswer))
       
     
-    @register("en-US", "change my (?P<type>first name|last name|nick|nick name)?( to )(?P<changeName>[\w ]+)")
-    @register("de-DE", ".*ändere .*meinen .*(?P<type>Vornamen.*|.*Nachnamen.*|.*Spitznamen.*)?(.*zu .*)(?P<changeName>[\w ]+)")
+    @register("de-DE", "ändere meinen (?P<type>vornamen|Nachnamen|nick|nick name)?( to )(?P<changeName>[\w ]+)")
     def changeUserName(self, speech, language, regex):
       newNameType = regex.group("type")
       newNameValue = regex.group("changeName").strip().title()
@@ -110,16 +109,15 @@ class callMe(Plugin):
       self.complete_request()
     
     
-    @register("en-US", "(call (me)(?P<name>[\w ]+))")
-    @register("de-DE", "(.*nenn .*(.*mich .*)(?P<name>[\w ]+))")
+    @register("de-DE", "(nenne mich | Mein Name ist | Ich bin) (?P<name>[\w ]+)")
     def callMe(self, speech, language, regex):
       name = regex.group('name').strip().title()
       self.changeName("nick", name)      
       self.say(res["success"][language].format(name))
       self.complete_request()    
     
-    @register("en-US", "(.*my.*names.*)")
-    @register("de-DE", "(.*meine .*namen.*)")
+    @register("en-GB", "(.*my.*names.*)")
+    @register("de-DE", "(.*meine.*namen.*)")
     def myName(self, speech, language):
       names = res["names"][language].format(self.assistant.firstName.decode("utf-8"), self.assistant.nickName.decode("utf-8"))
       self.say(names)
